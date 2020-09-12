@@ -81,6 +81,7 @@
 #include "strarray.h"
 #include "ptrarray.h"
 #include "sievedir.h"
+#include "cyr_lock.h"
 
 #ifdef USE_CALALARMD
 #include "caldav_alarm.h"
@@ -7692,6 +7693,8 @@ sync_rightnow_timeout(struct protstream *s __attribute__((unused)),
 
 EXPORTED int sync_checkpoint(struct protstream *clientin)
 {
+    clearlocks();
+
     struct buf *buf = sync_log_rightnow_buf();
     if (!buf) return 0;
 
@@ -7735,6 +7738,8 @@ EXPORTED int sync_checkpoint(struct protstream *clientin)
 
     // mark these items consumed!
     buf_reset(buf);
+
+    clearlocks();
 
     return 0;
 }
