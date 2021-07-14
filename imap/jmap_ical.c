@@ -2323,6 +2323,7 @@ relatedto_from_ical(icalcomponent *comp)
         json_decref(ret);
         ret = json_null();
     }
+    buf_free(&buf);
 
     return ret;
 }
